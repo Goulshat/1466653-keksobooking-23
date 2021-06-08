@@ -90,10 +90,21 @@ const getRandomElement = function (array) {
   return array[getRandomInteger(0, array.length - 1)];
 };
 
+const shuffle = function (array) {
+  let j, temp;
+  for(let i = array.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random()*(i + 1));
+    temp = array[j];
+    array[j] = array[i];
+    array[i] = temp;
+  }
+  return array;
+};
+
 const getOffers = function () {
   return {
     author: {
-      avatar: 'img/avatars/user0' + getRandomInteger(MIN, LINKS_NUMBER) + '.png',
+      avatar: `/img/avatars/user0${getRandomInteger(MIN, LINKS_NUMBER)}.png'`,
     },
 
     offer: {
@@ -105,9 +116,9 @@ const getOffers = function () {
       guests: getRandomInteger(),
       checkin: getRandomElement(checkinTimes),
       checkout: getRandomElement(checkinTimes),
-      features: accomodationFeatures.slice(getRandomIndex(accomodationFeatures)),
+      features: shuffle(accomodationFeatures).slice(getRandomIndex(accomodationFeatures)),
       description: getRandomElement(accomodationDescriptions),
-      photos: accomodationPhotos.slice(getRandomIndex(accomodationPhotos)),
+      photos: shuffle(accomodationPhotos).slice(getRandomIndex(accomodationPhotos)),
     },
 
     location: {
@@ -117,4 +128,5 @@ const getOffers = function () {
   };
 };
 
-const randomOffers = new Array(OFFERS_NUMBER).fill(null).map(() => getOffers());
+const randomOffers = () => new Array(OFFERS_NUMBER).fill(null).map(() => getOffers());
+randomOffers();
