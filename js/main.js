@@ -1,1 +1,2 @@
-import {randomOffers} from '/random-date.js'
+import {randomOffers} from 'random-data.js';
+randomOffers();
