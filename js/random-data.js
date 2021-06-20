@@ -128,6 +128,7 @@ const getOffers = function () {
   };
 };
 
-const randomOffers = () => new Array(OFFERS_NUMBER).fill(null).map(() => getOffers());
+const randomData = () => new Array(OFFERS_NUMBER).fill(null).map(() => getOffers());
+const randomOffers = randomData();
 
 export {randomOffers};
