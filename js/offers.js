@@ -1,5 +1,4 @@
 import {randomOffers} from './random-data.js';
-// import {nomNumDecline, genNumDecline} from './number-decline.js'; - как корректно использовать в шаблонных строках?
 
 const offersFragment = document.createDocumentFragment();
 const offerTemplate = document.querySelector('#card').content;
@@ -17,53 +16,44 @@ const getFeatures = (features, container) => {
   }
 };
 
-const getOfferType = (object) => {
-  if (object.offer.type === 'palace') {
-    return 'Дворец';
-  }
-  if (object.offer.type === 'flat') {
-    return 'Квартира';
-  }
-  if (object.offer.type === 'house') {
-    return 'Дом';
-  }
-  if (object.offer.type === 'bungalow') {
-    return 'Бунгало';
-  }
-  return 'Отель';
+const offerType = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalow': 'Бунгало',
+  'hotel': 'Отель',
 };
 
-const getNewOffer = (offerObject) => {
+const getNewOffer = ({author, offer}) => {
   const newOffer = offerPopup.cloneNode(true);
 
   const popupTitle = newOffer.querySelector('.popup__title');
-  if (offerObject.offer.title) {
+  if (offer.title) {
     popupTitle.remove();
   } else {
-    offerObject.offer.title;
+    popupTitle.textContent = offer.title;
   }
 
   const popupAddress = newOffer.querySelector('.popup__text--address');
-  if (offerObject.offer.address) {
-    popupAddress.textContent = offerObject.offer.address
+  if (offer.address) {
+    popupAddress.textContent = offer.address;
   } else {
     popupAddress.remove();
-  };
+  }
 
   const popupPrice = newOffer.querySelector('.popup__text--price');
-  if (offerObject.offer.price) {
-    popupPrice.textContent = `${offerObject.offer.price} ₽/ночь`
+  if (offer.price) {
+    popupPrice.textContent = `${offer.price} ₽/ночь`;
   } else {
     popupPrice.remove();
   }
 
   const popupType = newOffer.querySelector('.popup__type');
-  const offerType = getOfferType(offerObject);
-  popupType.textContent = offerType;
+  popupType.textContent = offerType[offer.type];
 
   const popupCapacity = newOffer.querySelector('.popup__text--capacity');
-  const popupRooms = offerObject.offer.rooms;
-  const popupGuest = offerObject.offer.guests;
+  const popupRooms = offer.rooms;
+  const popupGuest = offer.guests;
   if (!popupRooms || !popupGuest) {
     popupCapacity.remove();
   } else {
@@ -71,34 +61,34 @@ const getNewOffer = (offerObject) => {
   }
 
   const popupDescription = newOffer.querySelector('.popup__description');
-  if (offerObject.offer.description) {
-    popupDescription.textContent = offerObject.offer.description;
+  if (offer.description) {
+    popupDescription.textContent = offer.description;
   } else {
     popupDescription.remove();
   }
 
   const popupCheckIn = newOffer.querySelector('.popup__text--time');
-  if (!offerObject.offer.checkin || !offerObject.offer.checkout) {
+  if (!offer.checkin || !offer.checkout) {
     popupCheckIn.remove();
   } else {
-    popupCheckIn.textContent = `Заезд после ${offerObject.offer.checkin}, выезд до ${offerObject.offer.checkout}`;
+    popupCheckIn.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   }
 
   const popupFeatures = newOffer.querySelector('.popup__features');
-  getFeatures(offerObject.offer.features, popupFeatures);
+  getFeatures(offer.features, popupFeatures);
 
   const popupPhotos = newOffer.querySelector('.popup__photos');
-  if (!offerObject.offer.photos) {
+  if (!offer.photos) {
     popupPhotos.remove();
   } else {
     for (let j = 0; j < popupPhotos.length; j++) {
-      popupPhotos.children[j].src = offerObject.offer.photos[j];
+      popupPhotos.children[j].src = offer.photos[j];
     }
   }
 
   const popupAvatar = newOffer.querySelector('.popup__avatar');
-  if (offerObject.author.avatar) {
-    popupAvatar.src = offerObject.author.avatar;
+  if (author.avatar) {
+    popupAvatar.src = author.avatar;
   } else {
     popupAvatar.remove();
   }
