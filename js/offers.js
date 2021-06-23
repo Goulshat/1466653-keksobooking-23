@@ -1,5 +1,4 @@
 import {randomOffers} from './random-data.js';
-import {hideElement} from './hide-element.js';
 // import {nomNumDecline, genNumDecline} from './number-decline.js'; - как корректно использовать в шаблонных строках?
 
 const offersFragment = document.createDocumentFragment();
@@ -38,13 +37,25 @@ const getNewOffer = (offerObject) => {
   const newOffer = offerPopup.cloneNode(true);
 
   const popupTitle = newOffer.querySelector('.popup__title');
-  !offerObject.offer.title ? hideElement(popupTitle) : popupTitle.textContent = offerObject.offer.title;
+  if (offerObject.offer.title) {
+    popupTitle.remove();
+  } else {
+    offerObject.offer.title;
+  }
 
   const popupAddress = newOffer.querySelector('.popup__text--address');
-  offerObject.offer.address ? popupAddress.textContent = offerObject.offer.address : hideElement(popupAddress);
+  if (offerObject.offer.address) {
+    popupAddress.textContent = offerObject.offer.address
+  } else {
+    popupAddress.remove();
+  };
 
   const popupPrice = newOffer.querySelector('.popup__text--price');
-  offerObject.offer.price ? popupPrice.textContent = `${offerObject.offer.price} ₽/ночь` : hideElement(popupPrice);
+  if (offerObject.offer.price) {
+    popupPrice.textContent = `${offerObject.offer.price} ₽/ночь`
+  } else {
+    popupPrice.remove();
+  }
 
   const popupType = newOffer.querySelector('.popup__type');
   const offerType = getOfferType(offerObject);
@@ -53,20 +64,32 @@ const getNewOffer = (offerObject) => {
   const popupCapacity = newOffer.querySelector('.popup__text--capacity');
   const popupRooms = offerObject.offer.rooms;
   const popupGuest = offerObject.offer.guests;
-  (!popupRooms || !popupGuest) ? hideElement(popupCapacity) : popupCapacity.textContent = `${popupRooms} комнат для ${popupGuest} гостей`;
+  if (!popupRooms || !popupGuest) {
+    popupCapacity.remove();
+  } else {
+    popupCapacity.textContent = `${popupRooms} комнат для ${popupGuest} гостей`;
+  }
 
   const popupDescription = newOffer.querySelector('.popup__description');
-  offerObject.offer.description ? popupDescription.textContent = offerObject.offer.description : hideElement(popupDescription);
+  if (offerObject.offer.description) {
+    popupDescription.textContent = offerObject.offer.description;
+  } else {
+    popupDescription.remove();
+  }
 
   const popupCheckIn = newOffer.querySelector('.popup__text--time');
-  (!offerObject.offer.checkin || !offerObject.offer.checkout) ? hideElement(popupCheckIn) : popupCheckIn.textContent = `Заезд после ${offerObject.offer.checkin}, выезд до ${offerObject.offer.checkout}`;
+  if (!offerObject.offer.checkin || !offerObject.offer.checkout) {
+    popupCheckIn.remove();
+  } else {
+    popupCheckIn.textContent = `Заезд после ${offerObject.offer.checkin}, выезд до ${offerObject.offer.checkout}`;
+  }
 
   const popupFeatures = newOffer.querySelector('.popup__features');
   getFeatures(offerObject.offer.features, popupFeatures);
 
   const popupPhotos = newOffer.querySelector('.popup__photos');
   if (!offerObject.offer.photos) {
-    hideElement(popupPhotos);
+    popupPhotos.remove();
   } else {
     for (let j = 0; j < popupPhotos.length; j++) {
       popupPhotos.children[j].src = offerObject.offer.photos[j];
@@ -74,7 +97,11 @@ const getNewOffer = (offerObject) => {
   }
 
   const popupAvatar = newOffer.querySelector('.popup__avatar');
-  offerObject.author.avatar ? popupAvatar.src = offerObject.author.avatar : hideElement(popupAvatar);
+  if (offerObject.author.avatar) {
+    popupAvatar.src = offerObject.author.avatar;
+  } else {
+    popupAvatar.remove();
+  }
 
   offersFragment.appendChild(newOffer);
 };
