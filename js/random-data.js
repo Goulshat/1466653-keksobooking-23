@@ -104,7 +104,7 @@ const shuffle = function (array) {
 const getOffers = function () {
   return {
     author: {
-      avatar: `/img/avatars/user0${getRandomInteger(MIN, LINKS_NUMBER)}.png'`,
+      avatar: `./img/avatars/user0${getRandomInteger(MIN, LINKS_NUMBER)}.png'`,
     },
 
     offer: {
@@ -128,6 +128,7 @@ const getOffers = function () {
   };
 };
 
-const randomOffers = () => new Array(OFFERS_NUMBER).fill(null).map(() => getOffers());
+const randomData = () => new Array(OFFERS_NUMBER).fill(null).map(() => getOffers());
+const randomOffers = randomData();
 
 export {randomOffers};
