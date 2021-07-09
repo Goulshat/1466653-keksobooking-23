@@ -7,9 +7,11 @@ const offerPopup = offerTemplate.querySelector('.popup');
 const getFeatures = (features, container) => {
   const allFeatures = container.querySelectorAll('.popup__feature');
 
-  if (allFeatures) {
+  if (features) {
     allFeatures.forEach((item) => {
       if (features.indexOf(item.classList[1].replace('popup__feature--', '')) === -1) {
+        //features.indexOf(wi-fi) === -1 - если в свойствах объекта в features не находит вай-фая,
+        // взятого  из коллекции тегов container
         item.remove();
       }
     });
