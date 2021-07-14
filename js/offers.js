@@ -1,6 +1,5 @@
 import {randomOffers} from './random-data.js';
 
-const offersFragment = document.createDocumentFragment();
 const offerTemplate = document.querySelector('#card').content;
 const offerPopup = offerTemplate.querySelector('.popup');
 
@@ -10,8 +9,6 @@ const getFeatures = (features, container) => {
   if (features) {
     allFeatures.forEach((item) => {
       if (features.indexOf(item.classList[1].replace('popup__feature--', '')) === -1) {
-        //features.indexOf(wi-fi) === -1 - если в свойствах объекта в features не находит вай-фая,
-        // взятого  из коллекции тегов container
         item.remove();
       }
     });
@@ -95,7 +92,7 @@ const getNewOffer = ({author, offer}) => {
     popupAvatar.remove();
   }
 
-  offersFragment.appendChild(newOffer);
+  return newOffer;
 };
 
 getNewOffer(randomOffers[0]);

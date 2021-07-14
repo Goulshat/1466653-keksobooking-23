@@ -93,7 +93,7 @@ const createMarkers = (points) => {
 
     regularPin
       .addTo(pinLayer)
-      .bindPopup(getNewOffer(point),
+      .bindPopup(() => getNewOffer(point),
         {
           keepInView: true,
         },
