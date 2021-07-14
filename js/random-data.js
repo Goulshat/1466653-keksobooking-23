@@ -104,7 +104,7 @@ const shuffle = function (array) {
 const getOffers = function () {
   return {
     author: {
-      avatar: `./img/avatars/user0${getRandomInteger(MIN, LINKS_NUMBER)}.png'`,
+      avatar: `./img/avatars/user0${getRandomInteger(MIN, LINKS_NUMBER)}.png`,
     },
 
     offer: {
