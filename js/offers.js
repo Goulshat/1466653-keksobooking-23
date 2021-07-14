@@ -98,4 +98,6 @@ const getNewOffer = ({author, offer}) => {
   offersFragment.appendChild(newOffer);
 };
 
+getNewOffer(randomOffers[0]);
+
 export {getNewOffer};
