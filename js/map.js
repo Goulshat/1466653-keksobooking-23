@@ -1,9 +1,11 @@
 import {formDisableToggle} from './disable-form.js';
-import {randomOffers} from './random-data.js';
 import {getNewOffer} from './offers.js';
+import {request} from './fetch.js';
+import {openServerErrorAlert} from './popup.js'; // openSuccessPopup, closeSuccessPopup, openErrorPopup, closeErrorPopup,
 
 const MAP_ZOOM = 11;
 const COORDINATES_DIGITS = 5;
+const ADVERT_NUMBERS = 10;
 
 const MapInitial = {
   LAT: 35.75093,
@@ -101,4 +103,14 @@ const createMarkers = (points) => {
   });
 };
 
-createMarkers(randomOffers);
+/* --------------------- */
+let advertOffers = [];
+
+const addAdvertMarkers = (data) => {
+  advertOffers = data.slice();
+  createMarkers(advertOffers.slice(0, ADVERT_NUMBERS));
+};
+
+request(addAdvertMarkers, openServerErrorAlert, 'GET');
+
+export {MapInitial, mainPinMarker, pinLayer};
