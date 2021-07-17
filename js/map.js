@@ -104,6 +104,13 @@ const createMarkers = (points) => {
 };
 
 /* --------------------- */
+const setDefaultMap = () => {
+  pinLayer.clearLayers();
+  address.value = `${MapInitial.LAT}, ${MapInitial.LNG}`;
+  mainPinMarker.remove();
+  mainPinMarker.setLatLng(MapInitial.LAT, MapInitial.LNG);
+};
+
 let advertOffers = [];
 
 const addAdvertMarkers = (data) => {
@@ -113,4 +120,4 @@ const addAdvertMarkers = (data) => {
 
 request(addAdvertMarkers, openServerErrorAlert, 'GET');
 
-export {MapInitial, mainPinMarker, pinLayer};
+export {setDefaultMap};

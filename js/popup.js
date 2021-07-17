@@ -1,27 +1,10 @@
-/*
-  <template id="success">
-    <div class="success">
-      <p class="success__message">Ваше объявление<br>успешно размещено!</p>
-    </div>
-  </template>
-
-  <!-- Сообщение об ошибке создания объявления -->
-  <template id="error">
-    <div class="error">
-      <p class="error__message">Ошибка размещения объявления</p>
-      <button type="button" class="error__button">Попробовать снова</button>
-    </div>
-  </template>
-
-*/
-const ALERT_SHOW_TIME = 5000;
+const ALERT_SHOW_TIME = 3000;
 
 const body = document.querySelector('body');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const successPopup = successTemplate.cloneNode(true);
-
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const errorPopup = errorTemplate.cloneNode(true);
+let successPopup;
+let errorPopup;
 // const errorButton = errorPopup.querySelector('.error__button');
 
 const escPopupHandler = (evt) => {
@@ -31,37 +14,47 @@ const escPopupHandler = (evt) => {
   }
 };
 
-// попапы появляются
+const windowClickHandler = (evt) => {
+  evt.preventDefault();
+  successPopup.classList.add('hidden');
+  errorPopup.classList.add('hidden');
+};
+
 const openSuccessPopup = () => {
+  successPopup = successTemplate.cloneNode(true);
   body.appendChild(successPopup);
-  document.addEventListener('keydown', escPopupHandler);
+  document.addEventListener('keydown', escPopupHandler());
+  window.addEventListener('click', windowClickHandler());
 };
 
 const openErrorPopup = () => {
+  errorPopup = errorTemplate.cloneNode(true);
   body.appendChild(errorPopup);
   document.addEventListener('keydown', escPopupHandler);
+  window.addEventListener('click', windowClickHandler());
+  //const errorButton = errorPopup.querySelector('.error__button');
+  //errorButton.addEventListener('click', closePopup(errorPopup));
+};
+
+const closePopup = (popup) => {
+  popup.classList.add('hidden');
+  document.removeEventListener('keydown', escPopupHandler);
+  window.removeEventListener('click', windowClickHandler);
 };
 
 // Ошибка на сервере
 const openServerErrorAlert = () => {
+  errorPopup = errorTemplate.cloneNode(true);
   const errorMessage = errorPopup.querySelector('.error__message');
   errorMessage.textContent = 'Проблема доступа к серверу';
+  document.addEventListener('keydown', escPopupHandler);
+  window.addEventListener('click', windowClickHandler);
   body.appendChild(errorPopup);
   setTimeout(() => {
     errorPopup.remove();
   }, ALERT_SHOW_TIME);
 };
 
-// попапы закрываются
-const closeSuccessPopup = () => {
-  successPopup.classList.add('hidden');
-  document.removeEventListener('keydown', escPopupHandler);
-};
-const closeErrorPopup = () => {
-  errorPopup.classList.add('hidden');
-  document.removeEventListener('keydown', escPopupHandler);
-};
 // закрытие по нажатию на кнопку
-// errorButton.addEventListener('click', closeErrorPopup());
 
-export {openSuccessPopup, closeSuccessPopup, openErrorPopup, closeErrorPopup, openServerErrorAlert};
+export {openSuccessPopup, openErrorPopup, closePopup, openServerErrorAlert}; // closeSuccessPopup, closeErrorPopup

@@ -1,6 +1,6 @@
 const RequestUrls = {
   POST: 'https://23.javascript.pages.academy/keksobooking',
-  GET: 'https://23.javascript.pages.academy/keksobooking/data',
+  GET: 'https://23.javascript.pages.academy/keksobooking/data__',
 };
 
 const request = (onSuccess, onError, method, data) => {
@@ -16,7 +16,7 @@ const request = (onSuccess, onError, method, data) => {
       onSuccess(offers);
     }).catch(() => {
       onError();
-    }); // как закрыть модалки?
+    });
 };
 
 export {request};

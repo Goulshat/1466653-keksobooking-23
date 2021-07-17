@@ -1,4 +1,4 @@
-import {MapInitial, pinLayer} from './map.js';
+import {setDefaultMap} from './map.js';
 import {openSuccessPopup, openErrorPopup} from './popup.js'; // closeSuccessPopup, closeErrorPopup
 import {request} from './fetch.js';
 import {highlightRequiredInputs} from './input-required.js';
@@ -71,14 +71,11 @@ submitButton.addEventListener('click', (evt) => {
 });
 
 /* --------------------------------------- */
-const address = document.querySelector('#address');
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   adForm.reset();
-  pinLayer.clearLayers();
-  address.value = `${MapInitial.LAT}, ${MapInitial.LNG}`;
-  // и вернуть главную метку на место
+  setDefaultMap();
 });
 
 adForm.addEventListener('submit', (evt) => {
