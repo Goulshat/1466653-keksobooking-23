@@ -7,6 +7,7 @@ const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 const submitButton = adForm.querySelector('.ad-form__submit');
 const resetButton = adForm.querySelector('.ad-form__reset');
+const mapFilters = document.querySelector('.map__filters');
 
 const priceOfType = {
   'palace': '10000',
@@ -71,6 +72,7 @@ submitButton.addEventListener('click', (evt) => {
 
 const resetForm = () => {
   adForm.reset();
+  mapFilters.reset();
   setDefaultMap();
 };
 
