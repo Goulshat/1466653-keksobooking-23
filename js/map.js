@@ -1,11 +1,13 @@
 import {formDisableToggle} from './disable-form.js';
 import {getNewOffer} from './offers.js';
 import {request} from './fetch.js';
-import {openServerErrorAlert} from './popup.js'; // openSuccessPopup, closeSuccessPopup, openErrorPopup, closeErrorPopup,
+import {openServerErrorAlert} from './popup.js';
+import {filterOffers} from './filter.js';
 
 const MAP_ZOOM = 11;
 const COORDINATES_DIGITS = 5;
 const ADVERT_NUMBERS = 10;
+//const FILTERS_DEBOUNCE = 2000;
 
 const MapInitial = {
   LAT: 35.70470,
@@ -30,18 +32,7 @@ const mapFilters = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
 let advertOffers = [];
 
-const addAdvertMarkers = (data) => {
-  advertOffers = data.slice();
-  createMarkers(advertOffers.slice(0, ADVERT_NUMBERS));
-  mapFilters.classList.toggle('.map__filters--disabled');
-};
-
 const map = L.map('map-canvas')
-  .on('load', () => {
-    formDisableToggle();
-
-    request(addAdvertMarkers, openServerErrorAlert, 'GET');
-  })
   .setView({
     lat: MapInitial.LAT,
     lng: MapInitial.LNG,
@@ -113,6 +104,23 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = `${lat.toFixed(COORDINATES_DIGITS)}, ${lng.toFixed(COORDINATES_DIGITS)}`;
 });
 
+const filtersChangeHandler = () => {
+  pinLayer.clearLayers();
+  createMarkers(filterOffers(advertOffers));
+};
+
+const addAdvertMarkers = (data) => {
+  advertOffers = data.slice();
+  createMarkers(advertOffers.slice(0, ADVERT_NUMBERS));
+  mapFilters.classList.remove('.map__filters--disabled');
+  mapFilters.addEventListener('change', filtersChangeHandler);
+};
+
+map.whenReady(() => {
+  formDisableToggle();
+  request(addAdvertMarkers, openServerErrorAlert, 'GET');
+});
+
 const setDefaultMap = () => {
   pinLayer.clearLayers();
   address.value = `${MapInitial.LAT}, ${MapInitial.LNG}`;
@@ -121,6 +129,7 @@ const setDefaultMap = () => {
     lat: MapInitial.LAT,
     lng: MapInitial.LNG,
   });
+  createMarkers(advertOffers.slice(0, ADVERT_NUMBERS));
 };
 
 export {setDefaultMap};

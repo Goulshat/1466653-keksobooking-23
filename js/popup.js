@@ -33,7 +33,7 @@ const openSuccessPopup = () => {
   successPopup.classList.add('popup-overlay');
   body.appendChild(successPopup);
   document.addEventListener('keydown', escPopupHandler);
-  successPopup.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
+  document.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
   resetForm();
 };
 
@@ -42,7 +42,7 @@ const openErrorPopup = () => {
   errorPopup.classList.add('popup-overlay');
   body.appendChild(errorPopup);
   document.addEventListener('keydown', escPopupHandler);
-  errorPopup.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
+  document.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
   const errorButton = errorPopup.querySelector('.error__button');
   errorButton.addEventListener('click', closePopupHandler);
 };
@@ -54,7 +54,7 @@ const openServerErrorAlert = () => {
   errorMessage.textContent = 'Проблема доступа к серверу';
   body.appendChild(errorPopup);
   document.addEventListener('keydown', escPopupHandler);
-  errorPopup.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
+  document.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
   setTimeout(() => {
     removeOverlay();
   }, ALERT_SHOW_TIME);

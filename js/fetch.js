@@ -8,7 +8,7 @@ const request = (onSuccess, onError, method, data) => {
     RequestUrls[method],
     {
       method: method,
-      body : data,
+      body: data,
     },
   )
     .then((response) => response.json())
