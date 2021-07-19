@@ -1,6 +1,6 @@
 const RequestUrls = {
   POST: 'https://23.javascript.pages.academy/keksobooking',
-  GET: 'https://23.javascript.pages.academy/keksobooking/data__',
+  GET: 'https://23.javascript.pages.academy/keksobooking/data',
 };
 
 const request = (onSuccess, onError, method, data) => {

@@ -12,7 +12,10 @@ const fieldsetDisable = () => {
 const formDisableToggle = () => {
   fieldsetDisable();
   adForm.classList.toggle('ad-form--disabled');
+};
+
+const disableFilters = () => {
   mapFilters.classList.toggle('.map__filters--disabled');
 };
 
-export {formDisableToggle};
+export {formDisableToggle, disableFilters};

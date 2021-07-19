@@ -1,7 +1,6 @@
 import {setDefaultMap} from './map.js';
 import {openSuccessPopup, openErrorPopup} from './popup.js'; // closeSuccessPopup, closeErrorPopup
 import {request} from './fetch.js';
-import {highlightRequiredInputs} from './input-required.js';
 
 const adForm = document.querySelector('.ad-form');
 const type = adForm.querySelector('#type');
@@ -64,23 +63,22 @@ const roomNumberChangeHandler = () => {
 adForm.addEventListener('change', roomNumberChangeHandler);
 
 submitButton.addEventListener('click', (evt) => {
-  if (!adForm.checkValidity()) {
+  if (adForm.checkValidity()) {
     evt.preventDefault();
-    highlightRequiredInputs();
+    request(openSuccessPopup, openErrorPopup, 'POST', new FormData(adForm));
   }
 });
 
-/* --------------------------------------- */
-
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
+const resetForm = () => {
   adForm.reset();
   setDefaultMap();
-});
+};
 
-adForm.addEventListener('submit', (evt) => {
+const resetButtonClickHandler = (evt) => {
   evt.preventDefault();
-  const formData = new FormData(evt.target);
+  resetForm();
+};
 
-  request(openSuccessPopup, openErrorPopup, 'POST', formData);
-});
+resetButton.addEventListener('click', resetButtonClickHandler);
+
+export {resetForm};

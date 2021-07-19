@@ -1,60 +1,63 @@
-const ALERT_SHOW_TIME = 3000;
+import {isEscEvent} from './utils.js';
+import {resetForm} from './form.js';
+
+const ALERT_SHOW_TIME = 2500;
 
 const body = document.querySelector('body');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 let successPopup;
 let errorPopup;
-// const errorButton = errorPopup.querySelector('.error__button');
 
-const escPopupHandler = (evt) => {
-  if(evt.key === 'Escape' || evt.key === 'Esc') {
-    successPopup.classList.add('hidden');
-    errorPopup.classList.add('hidden');
+const removeOverlay = () => {
+  const overlay = document.querySelector('.popup-overlay');
+  if (overlay) {
+    overlay.remove();
   }
 };
 
-const windowClickHandler = (evt) => {
-  evt.preventDefault();
-  successPopup.classList.add('hidden');
-  errorPopup.classList.add('hidden');
+const escPopupHandler = () => {
+  if(isEscEvent) {
+    removeOverlay();
+    document.removeEventListener('keydown', escPopupHandler);
+  }
+};
+
+const closePopupHandler = () => {
+  removeOverlay();
+  document.removeEventListener('keydown', escPopupHandler);
 };
 
 const openSuccessPopup = () => {
   successPopup = successTemplate.cloneNode(true);
+  successPopup.classList.add('popup-overlay');
   body.appendChild(successPopup);
-  document.addEventListener('keydown', escPopupHandler());
-  window.addEventListener('click', windowClickHandler());
+  document.addEventListener('keydown', escPopupHandler);
+  successPopup.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
+  resetForm();
 };
 
 const openErrorPopup = () => {
   errorPopup = errorTemplate.cloneNode(true);
+  errorPopup.classList.add('popup-overlay');
   body.appendChild(errorPopup);
   document.addEventListener('keydown', escPopupHandler);
-  window.addEventListener('click', windowClickHandler());
-  //const errorButton = errorPopup.querySelector('.error__button');
-  //errorButton.addEventListener('click', closePopup(errorPopup));
+  errorPopup.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
+  const errorButton = errorPopup.querySelector('.error__button');
+  errorButton.addEventListener('click', closePopupHandler);
 };
 
-const closePopup = (popup) => {
-  popup.classList.add('hidden');
-  document.removeEventListener('keydown', escPopupHandler);
-  window.removeEventListener('click', windowClickHandler);
-};
-
-// Ошибка на сервере
 const openServerErrorAlert = () => {
   errorPopup = errorTemplate.cloneNode(true);
+  errorPopup.classList.add('popup-overlay');
   const errorMessage = errorPopup.querySelector('.error__message');
   errorMessage.textContent = 'Проблема доступа к серверу';
-  document.addEventListener('keydown', escPopupHandler);
-  window.addEventListener('click', windowClickHandler);
   body.appendChild(errorPopup);
+  document.addEventListener('keydown', escPopupHandler);
+  errorPopup.querySelector('.popup-overlay').addEventListener('click', closePopupHandler);
   setTimeout(() => {
-    errorPopup.remove();
+    removeOverlay();
   }, ALERT_SHOW_TIME);
 };
 
-// закрытие по нажатию на кнопку
-
-export {openSuccessPopup, openErrorPopup, closePopup, openServerErrorAlert}; // closeSuccessPopup, closeErrorPopup
+export {openSuccessPopup, openErrorPopup, openServerErrorAlert};

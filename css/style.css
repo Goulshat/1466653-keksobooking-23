@@ -1008,7 +1008,7 @@ fieldset {
 }
 
 .js-input-required--error {
-  outline: 2px solid #ff5635;
+  outline: 3px solid #ff5635;
 }
 
 .visually-hidden {
