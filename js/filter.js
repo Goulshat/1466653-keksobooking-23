@@ -51,7 +51,7 @@ const filterOffers = (data) => {
 
     i++;
   }
-
+  console.log(123);
   return filteredOffers;
 };
 
