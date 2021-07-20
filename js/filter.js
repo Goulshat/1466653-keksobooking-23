@@ -25,20 +25,26 @@ const filterRules = {
   'housing-guests': (data, filter) => filter.value === data.offer.guests.toString(),
   'housing-features': (data, filter) => {
     const checkedFeatures = Array.from(filter.querySelectorAll('input[type="checkbox"]:checked'));
-    checkedFeatures.every((checkbox) =>
+
+    if (!checkedFeatures || !data.offer.features) {
+      return true;
+    }
+
+    return checkedFeatures.every((checkbox) =>
       data.offer.features.some((feature) =>
         feature === checkbox.value));
   },
 };
 
 const filterOffers = (data) => {
-  let filteredOffers = [];
+  const filteredOffers = [];
   let i = 0;
   let result;
 
   while (i < data.length && filteredOffers.length < MAX_OFFERS) {
     result = filters.every((filter) =>
       (filter.value === DEFAULT_VALUE) ? true : filterRules[filter.id](data[i], filter));
+
     if (result) {
       filteredOffers.push(data[i]);
     }

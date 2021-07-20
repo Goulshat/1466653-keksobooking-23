@@ -1,7 +1,7 @@
 const offerTemplate = document.querySelector('#card').content;
 const offerPopup = offerTemplate.querySelector('.popup');
 
-const getFeatures = (features, container) => {
+const getFeature = (features, container) => {
   const allFeatures = container.querySelectorAll('.popup__feature');
 
   if (features) {
@@ -72,7 +72,7 @@ const getNewOffer = ({author, offer}) => {
   }
 
   const popupFeatures = newOffer.querySelector('.popup__features');
-  getFeatures(offer.features, popupFeatures);
+  getFeature(offer.features, popupFeatures);
 
   const popupPhotos = newOffer.querySelector('.popup__photos');
   if (!offer.photos) {
