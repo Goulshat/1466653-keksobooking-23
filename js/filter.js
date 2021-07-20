@@ -40,7 +40,7 @@ const filterOffers = (data) => {
     result = filters.every((filter) =>
       (filter.value === DEFAULT_VALUE) ? true : filterRules[filter.id](data[i], filter));
     if (result) {
-      filteredOffers = filteredOffers.push(data[i]);
+      filteredOffers.push(data[i]);
     }
 
     i++;
