@@ -1,5 +1,3 @@
-import {randomOffers} from './random-data.js';
-
 const offerTemplate = document.querySelector('#card').content;
 const offerPopup = offerTemplate.querySelector('.popup');
 
@@ -94,7 +92,5 @@ const getNewOffer = ({author, offer}) => {
 
   return newOffer;
 };
-
-getNewOffer(randomOffers[0]);
 
 export {getNewOffer};

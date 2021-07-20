@@ -1,7 +1,13 @@
+import {setDefaultMap} from './map.js';
+import {openSuccessPopup, openErrorPopup} from './popup.js'; // closeSuccessPopup, closeErrorPopup
+import {request} from './fetch.js';
+
 const adForm = document.querySelector('.ad-form');
 const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
-const buttonSubmit = adForm.querySelector('.ad-form__submit');
+const submitButton = adForm.querySelector('.ad-form__submit');
+const resetButton = adForm.querySelector('.ad-form__reset');
+const mapFilters = document.querySelector('.map__filters');
 
 const priceOfType = {
   'palace': '10000',
@@ -42,7 +48,7 @@ const roomNumberQuest = () => {
 
   roomCapacityValues.forEach((item) => {
     const guestsCapacity = guestsNumber[roomNumberValue];
-    const isDisabled = (guestsCapacity.indexOf(item.value) === -1); // выбираем массив из объекта guestsNumber, ключ которого соответствует выбранному roomNumber.value, и проверяем есть ли в нем значение текущего(перебираемого) поля из roomCapacityValues. Передаем true/false дальше.
+    const isDisabled = (guestsCapacity.indexOf(item.value) === -1);
     item.selected = (guestsCapacity[guestsCapacity.length - 1] === item.value);
     item.disabled = isDisabled;
     item.hidden = isDisabled;
@@ -57,8 +63,24 @@ const roomNumberChangeHandler = () => {
 
 adForm.addEventListener('change', roomNumberChangeHandler);
 
-buttonSubmit.addEventListener('click', (evt) => {
-  if (!adForm.checkValidity()) {
+submitButton.addEventListener('click', (evt) => {
+  if (adForm.checkValidity()) {
     evt.preventDefault();
+    request(openSuccessPopup, openErrorPopup, 'POST', new FormData(adForm));
   }
 });
+
+const resetForm = () => {
+  adForm.reset();
+  mapFilters.reset();
+  setDefaultMap();
+};
+
+const resetButtonClickHandler = (evt) => {
+  evt.preventDefault();
+  resetForm();
+};
+
+resetButton.addEventListener('click', resetButtonClickHandler);
+
+export {resetForm};
