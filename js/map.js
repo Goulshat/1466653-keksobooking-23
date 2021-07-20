@@ -106,7 +106,7 @@ mainPinMarker.on('moveend', (evt) => {
 
 const filtersChangeHandler = () => {
   pinLayer.clearLayers();
-  createMarkers(filterOffers(advertOffers));
+  createMarkers(debounce(() => filterOffers(advertOffers)));
 };
 
 const addAdvertMarkers = (data) => {
