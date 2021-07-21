@@ -1,4 +1,4 @@
-import {isEscEvent} from './utils.js';
+import {isEscEvent} from './utils/utils.js';
 import {resetForm} from './form.js';
 
 const ALERT_SHOW_TIME = 2500;

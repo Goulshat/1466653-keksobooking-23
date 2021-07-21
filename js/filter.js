@@ -16,39 +16,43 @@ const priceRange = {
   },
 };
 
-// const filters = document.querySelectorAll('.map-filter, .map-checkbox';
-const filters = Array.from(document.querySelectorAll('.map-filter, .map-checkbox'));
+const filters = Array.from(document.querySelectorAll('.map__filter, .map__features'));
 
 const filterRules = {
-  'housing-type': (data, filter) => filter.value === data.offer.type, // совпадают ли выбранные значения фильтра и фичи в описании отеля
-  'housing-price': (data, filter) => data.offer.price >= priceRange[filter.value].start && data.offer.price < priceRange[filter.value].end, // в какой диапазон цен (больше 'start' и меньше 'end') попадает цена отеля
-  'housung-rooms': (data, filter) => filter.value === data.offer.rooms.toString(),
+  'housing-type': (data, filter) => filter.value === data.offer.type,
+  'housing-price': (data, filter) => data.offer.price >= priceRange[filter.value].start && data.offer.price < priceRange[filter.value].end,
+  'housing-rooms': (data, filter) => filter.value === data.offer.rooms.toString(),
   'housing-guests': (data, filter) => filter.value === data.offer.guests.toString(),
-  'housing-features':  (data, filter) => {
+  'housing-features': (data, filter) => {
     const checkedFeatures = Array.from(filter.querySelectorAll('input[type="checkbox"]:checked'));
-    checkedFeatures.every((checkbox) =>
+
+    if (!checkedFeatures || !data.offer.features) {
+      return true;
+    }
+
+    return checkedFeatures.every((checkbox) =>
       data.offer.features.some((feature) =>
-        feature === checkbox.value)); // сравниваем каждый выбранный чекбокс через метод some);
+        feature === checkbox.value));
   },
 };
 
 const filterOffers = (data) => {
-  let filteredData = [];
+  const filteredOffers = [];
   let i = 0;
   let result;
 
-  while (i < data.length && filteredData.length <= MAX_OFFERS) {
+  while (i < data.length && filteredOffers.length < MAX_OFFERS) {
     result = filters.every((filter) =>
-      filter.value === DEFAULT_VALUE ? true : filterRules[filter.id](data[i], filter));
+      (filter.value === DEFAULT_VALUE) ? true : filterRules[filter.id](data[i], filter));
 
     if (result) {
-      filteredData = filteredData.push(data[i]);
+      filteredOffers.push(data[i]);
     }
 
     i++;
   }
 
-  return filteredData;
+  return filteredOffers;
 };
 
 export {filterOffers};
