@@ -18,8 +18,9 @@ const priceOfType = {
 };
 
 const typeAndPriceHandler = () => {
-  price.placeholder = priceOfType[type.value];
-  price.min = priceOfType[type.value];
+  const minPrice = priceOfType[type.value];
+  price.placeholder = minPrice;
+  price.min = minPrice;
 };
 
 type.addEventListener('change', typeAndPriceHandler);
