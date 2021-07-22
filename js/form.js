@@ -1,6 +1,9 @@
+import './preview.js';
 import {setDefaultMap} from './map.js';
-import {openSuccessPopup, openErrorPopup} from './popup.js'; // closeSuccessPopup, closeErrorPopup
+import {openSuccessPopup, openErrorPopup} from './popup.js';
 import {request} from './fetch.js';
+
+const AVATAR_SOURCE = 'img/muffin-grey.svg';
 
 const adForm = document.querySelector('.ad-form');
 const type = adForm.querySelector('#type');
@@ -8,6 +11,7 @@ const price = adForm.querySelector('#price');
 const submitButton = adForm.querySelector('.ad-form__submit');
 const resetButton = adForm.querySelector('.ad-form__reset');
 const mapFilters = document.querySelector('.map__filters');
+const avatar = adForm.querySelector('.ad-form-header__preview-image');
 
 const priceOfType = {
   'palace': '10000',
@@ -25,11 +29,13 @@ const typeAndPriceHandler = () => {
 
 type.addEventListener('change', typeAndPriceHandler);
 
-const timeField = adForm.querySelector('.ad-form__element--time');
-const timeIn = timeField.querySelector('#timein');
-const timeOut = timeField.querySelector('#timeout');
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
 
-timeField.addEventListener('change', () => {
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
+});
+timeIn.addEventListener('change', () => {
   timeOut.value = timeIn.value;
 });
 
@@ -75,6 +81,7 @@ const resetForm = () => {
   adForm.reset();
   mapFilters.reset();
   setDefaultMap();
+  avatar.src = AVATAR_SOURCE;
 };
 
 const resetButtonClickHandler = (evt) => {

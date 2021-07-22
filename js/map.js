@@ -3,6 +3,7 @@ import {getNewOffer} from './offers.js';
 import {request} from './fetch.js';
 import {openServerErrorAlert} from './popup.js';
 import {filterOffers} from './filter.js';
+import {debounce} from './utils/debounce.js';
 
 const MAP_ZOOM = 11;
 const COORDINATES_DIGITS = 5;
@@ -103,10 +104,10 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = `${lat.toFixed(COORDINATES_DIGITS)}, ${lng.toFixed(COORDINATES_DIGITS)}`;
 });
 
-const filtersChangeHandler = () => {
+const filtersChangeHandler = debounce(() => {
   pinLayer.clearLayers();
   createMarkers(filterOffers(advertOffers));
-};
+});
 
 const addAdvertMarkers = (data) => {
   advertOffers = data.slice();
