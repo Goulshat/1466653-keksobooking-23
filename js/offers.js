@@ -26,9 +26,9 @@ const getNewOffer = ({author, offer}) => {
 
   const popupTitle = newOffer.querySelector('.popup__title');
   if (offer.title) {
-    popupTitle.remove();
-  } else {
     popupTitle.textContent = offer.title;
+  } else {
+    popupTitle.remove();
   }
 
   const popupAddress = newOffer.querySelector('.popup__text--address');
@@ -74,12 +74,18 @@ const getNewOffer = ({author, offer}) => {
   const popupFeatures = newOffer.querySelector('.popup__features');
   getFeature(offer.features, popupFeatures);
 
-  const popupPhotos = newOffer.querySelector('.popup__photos');
+  const popupImage = newOffer.querySelector('.popup__photos');
+
   if (!offer.photos) {
-    popupPhotos.remove();
+    popupImage.remove();
   } else {
-    for (let j = 0; j < popupPhotos.length; j++) {
-      popupPhotos.children[j].src = offer.photos[j];
+    popupImage.querySelector('.popup__photo').src = offer.photos[0];
+    if (offer.photos.length > 1) {
+      for (let i = 1; i < offer.photos.length; i++) {
+        const newPhoto = popupImage.querySelector('.popup__photo').cloneNode(true);
+        newPhoto.src = offer.photos[i];
+        popupImage.appendChild(newPhoto);
+      }
     }
   }
 
