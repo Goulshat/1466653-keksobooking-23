@@ -1,21 +1,22 @@
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
-const formFieldsets = document.querySelectorAll('.map__filter, fieldset');
+const adFormFieldsets = document.querySelectorAll('.map__filter, .map__features');
+const filters = document.querySelectorAll('.map__filter, .map__features');
 
-
-const fieldsetDisable = () => {
-  formFieldsets.forEach((item) => {
+const disableForm = (items) => {
+  items.forEach((item) => {
     item.disabled = !item.disabled;
   });
 };
 
 const formDisableToggle = () => {
-  fieldsetDisable();
+  disableForm(adFormFieldsets);
   adForm.classList.toggle('ad-form--disabled');
 };
 
-const disableFilters = () => {
+const disableFiltersToggle = () => {
+  disableForm(filters);
   mapFilters.classList.toggle('.map__filters--disabled');
 };
 
-export {formDisableToggle, disableFilters};
+export {formDisableToggle, disableFiltersToggle};

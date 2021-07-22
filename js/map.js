@@ -1,4 +1,4 @@
-import {formDisableToggle} from './disable-form.js';
+import {formDisableToggle, disableFiltersToggle} from './disable-form.js';
 import {getNewOffer} from './offers.js';
 import {request} from './fetch.js';
 import {openServerErrorAlert} from './popup.js';
@@ -21,7 +21,7 @@ const MainPin = {
   ANCHOR: [26, 52],
 };
 
-const pin = {
+const Pin = {
   URL: './img/pin.svg',
   SIZE: [40, 40],
   ANCHOR: [20, 50],
@@ -47,9 +47,9 @@ L.tileLayer(
 const pinLayer = L.layerGroup().addTo(map);
 
 const pinIcon = L.icon({
-  iconUrl: pin.URL,
-  iconSize: pin.SIZE,
-  iconAnchor: pin.ANCHOR,
+  iconUrl: Pin.URL,
+  iconSize: Pin.SIZE,
+  iconAnchor: Pin.ANCHOR,
 });
 
 const createMarkers = (points) => {
@@ -111,14 +111,17 @@ const filtersChangeHandler = () => {
 const addAdvertMarkers = (data) => {
   advertOffers = data.slice();
   createMarkers(advertOffers.slice(0, ADVERT_NUMBERS));
-  mapFilters.classList.remove('.map__filters--disabled');
+  disableFiltersToggle();
   mapFilters.addEventListener('change', filtersChangeHandler);
 };
 
-map.whenReady(() => {
-  formDisableToggle();
-  request(addAdvertMarkers, openServerErrorAlert, 'GET');
-});
+const loadMap = () => {
+  map.whenReady(() => {
+    formDisableToggle();
+    request(addAdvertMarkers, openServerErrorAlert, 'GET');
+  });
+};
+
 
 const setDefaultMap = () => {
   pinLayer.clearLayers();
@@ -131,4 +134,4 @@ const setDefaultMap = () => {
   createMarkers(advertOffers.slice(0, ADVERT_NUMBERS));
 };
 
-export {setDefaultMap};
+export {setDefaultMap, loadMap};
