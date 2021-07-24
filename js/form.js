@@ -21,16 +21,10 @@ const priceOfType = {
   'bungalow': '0',
 };
 
-const changeTypeAndPrice = () => {
+const typeAndPriceHandler = () => {
   const minPrice = priceOfType[type.value];
   price.placeholder = minPrice;
   price.min = minPrice;
-};
-
-changeTypeAndPrice();
-
-const typeAndPriceHandler = () => {
-  changeTypeAndPrice();
 };
 
 type.addEventListener('change', typeAndPriceHandler);
